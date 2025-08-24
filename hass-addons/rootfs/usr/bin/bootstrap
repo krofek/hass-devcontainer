@@ -8,6 +8,6 @@ if ! mountpoint -q "${workspace_mount}"; then
     sudo mount --bind "${WORKSPACE_DIRECTORY}" "${workspace_mount}"
 fi
 
-exec /etc/container/install_deps.sh
+exec /etc/container/prepare.sh
 
 # exit 0

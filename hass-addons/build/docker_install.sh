@@ -30,5 +30,5 @@ apt-get install -y --no-install-recommends \
 rm -rf /var/lib/apt/lists/*
 
 # Enable Docker and Containerd services
-sudo systemctl enable docker.service
-sudo systemctl enable containerd.service
+# sudo systemctl enable docker.service
+# sudo systemctl enable containerd.service

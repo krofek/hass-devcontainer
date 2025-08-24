@@ -2,6 +2,9 @@
 
 set -e
 
+# shellcheck disable=SC1091
+source "/etc/container/src.sh"
+
 VERSION_INFO=$(curl -s https://version.home-assistant.io/dev.json)
 HA_ARCH=$(get_arch ha)
 DOCKER_TIMEOUT=30
@@ -11,7 +14,7 @@ export SUPERVISOR_VERSION
 SUPERVISOR_VERSION=$(echo "${VERSION_INFO}" | jq -e -r '.supervisor')
 
 export SUPERVISOR_IMAGE
-SUPERVISOR_IMAGE=$("$(echo "${VERSION_INFO}" | jq -e -r '.images.supervisor')"//arch/"${HA_ARCH}")
+SUPERVISOR_IMAGE=$(echo "${VERSION_INFO}" | jq -e -r '.images.supervisor' | sed "s|{arch}|${HA_ARCH}|g")
 
 
 function start_systemd_journald() {
@@ -37,12 +40,6 @@ function start_docker() {
     local current_time
     local elapsed_time
 
-    if grep -q 'microsoft-standard\|standard-WSL' /proc/version; then
-        # The docker daemon does not start when running WSL2 without adjusting iptables
-        sudo update-alternatives --set iptables /usr/sbin/iptables-legacy || echo "Fails adjust iptables"
-        sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy || echo "Fails adjust ip6tables"
-    fi
-
     echo "Starting docker."
     if stat -f -c %T /var/lib/docker | grep -q overlayfs; then
         echo "Using \"vfs\" storage driver. Bind mount /var/lib/docker to use the faster overlay2 driver."
@@ -50,6 +47,7 @@ function start_docker() {
     else
         storage_driver="overlay2"
     fi
+    
     sudo dockerd --storage-driver="${storage_driver}" > /dev/null 2>&1 &
 
     echo "Waiting for Docker to initialize..."
