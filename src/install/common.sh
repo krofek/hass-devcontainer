@@ -3,7 +3,7 @@
 set -e
 
 # Get architecture in different formats
-function get_arch($mode:-unix) {
+function get_arch($mode="unix") {
     case $(arch) in
         x86_64|amd64)
           case $mode in
