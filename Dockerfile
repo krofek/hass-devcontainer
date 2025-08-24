@@ -6,5 +6,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY src/rootfs /
+COPY src/install /install
 
-RUN bash install_deps.sh
+RUN bash /install/install_deps.sh
