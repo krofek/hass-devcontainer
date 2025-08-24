@@ -2,8 +2,7 @@
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        udisks2 \
-        jq \
+        dbus \
         ca-certificates curl \
         network-manager \
 
