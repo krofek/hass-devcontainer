@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Get architecture in different formats
+function get_arch($mode:-unix) {
+    case $(arch) in
+        x86_64|amd64)
+          case $mode in
+              unix)
+                echo "x86_64";;
+              docker|ha)
+                echo "amd64";;
+              qemu)
+                echo "x86-64";;
+          esac
+        ;;
+        aarch64|arm64)
+          case $mode in
+              unix|ha)
+                echo "aarch64";;
+              docker)
+                echo "arm64";;
+              qemu)
+                echo "arm-64";;
+          esac
+        ;;
+    esac
+}
+
+# Get package version from versions.json
+function get_package_version($package) {
+    jq -r --arg package "$package" '.[$package]' /tmp/common/install/versions.json
+}
+
+# Prepare supervisor
+function prepare_supervisor() {
+    sudo rm /etc/machine-id
+    sudo dbus-uuidgen --ensure=/etc/machine-id
+
+    if grep -q 'microsoft-standard\|standard-WSL' /proc/version; then
+        # The docker daemon does not start when running WSL2 without adjusting iptables
+        sudo update-alternatives --set iptables /usr/sbin/iptables-legacy || echo "Fails adjust iptables"
+        sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy || echo "Fails adjust ip6tables"
+    fi
+}
+
+# Install cosign
+function install_cosign() {
+    ARCH=$(get_arch docker)
+    COSIGN_VERSION=$(get_package_version cosign)
+
+    curl -fLs \
+        "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-${ARCH}" \
+        --output ./cosign
+
+    chmod +x ./cosign
+    mv -f ./cosign /usr/local/bin/cosign
+    rm -f ./cosign
+}
+
+# Install os-agent
+function install_os_agent() {
+    ARCH=$(get_arch)
+    OS_AGENT_VERSION=$(get_package_version os-agent)
+
+    apt update
+    apt install -y udisks2
+
+    curl -Lso ./os-agent.deb \
+        "https://github.com/home-assistant/os-agent/releases/download/${OS_AGENT_VERSION}/os-agent_${OS_AGENT_VERSION}_linux_${ARCH}.deb"
+
+    dpkg -i ./os-agent.deb
+    rm ./os-agent.deb
+}
+
+
+# Install shellcheck
+function install_shellcheck() {
+    ARCH=$(get_arch)
+    curl -fLs \
+        "https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.${ARCH}.tar.xz" \
+        | tar -xJ
+
+    mv -f "./shellcheck-stable/shellcheck" "/usr/bin/shellcheck"
+    rm -rf "./shellcheck-stable"
+}

@@ -1,4 +1,0 @@
-{
-	"name": "hass-devcontainer/devcontainer",
-	"image": "mcr.microsoft.com/devcontainers/debian"
-}

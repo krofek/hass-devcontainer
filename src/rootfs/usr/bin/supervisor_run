@@ -2,9 +2,7 @@
 
 set -e
 
-source /etc/supervisor_scripts/common
-
-WD="${WORKSPACE_DIRECTORY:=/workspaces/supervisor}"
+source /etc/supervisor/common
 
 echo "Run Supervisor"
 
@@ -12,29 +10,9 @@ start_systemd_journald
 start_docker
 trap "stop_docker" ERR
 
-function build_supervisor() {
-    docker pull "ghcr.io/home-assistant/${HA_ARCH}-builder:dev"
-    cosign verify \
-          --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-          --certificate-identity-regexp https://github.com/home-assistant/builder/.* \
-          "ghcr.io/home-assistant/${HA_ARCH}-builder:dev"
-
-    docker run --rm \
-        --privileged \
-        -v /run/docker.sock:/run/docker.sock \
-        -v "$(pwd):/data" \
-        "ghcr.io/home-assistant/${HA_ARCH}-builder:dev" \
-            --generic latest \
-            --target /data \
-            --test \
-            "--${HA_ARCH}" \
-            --no-cache
-}
-
 function run_supervisor() {
-    validate_devcontainer "supervisor"
+    validate_devcontainer "addons"
 
-    echo "Start Supervisor"
     docker run --rm --privileged \
         --name hassio_supervisor \
         --privileged \
@@ -43,15 +21,14 @@ function run_supervisor() {
         -v /run/docker.sock:/run/docker.sock:rw \
         -v /run/dbus:/run/dbus:ro \
         -v /run/udev:/run/udev:ro \
-        -v "/mnt/supervisor":/data:rw \
+        -v /mnt/supervisor:/data:rw \
         -v /etc/machine-id:/etc/machine-id:ro \
-        -v "${WD}:/usr/src/supervisor" \
         -e SUPERVISOR_SHARE="/mnt/supervisor" \
         -e SUPERVISOR_NAME=hassio_supervisor \
         -e SUPERVISOR_DEV=1 \
         -e SUPERVISOR_MACHINE="qemu${QEMU_ARCH}" \
         -e SUPERVISOR_SYSTEMD_JOURNAL_GATEWAYD_URL="http://172.30.32.1:19531/" \
-        "ghcr.io/home-assistant/${HA_ARCH}-hassio-supervisor:latest"
+        "${SUPERVISOR_IMAGE}:${SUPERVISOR_VERSION}"
 }
 
 
@@ -68,7 +45,6 @@ if [ "$( docker container inspect -f '{{.State.Status}}' hassio_supervisor )" ==
 else
     echo "Starting Supervisor"
     docker system prune -f
-    build_supervisor
     cleanup_lastboot
     cleanup_docker
     init_dbus

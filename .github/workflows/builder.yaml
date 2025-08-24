@@ -15,8 +15,7 @@ jobs:
     strategy:
       matrix:
         devcontainer:
-          - "addons"
-          - "supervisor"
+          - hass-addons
 
     steps:
       - name: 📥 Checkout the repository
@@ -46,10 +45,9 @@ jobs:
         uses: docker/build-push-action@v6.18.0
         with:
           context: .
-          file: ./${{ matrix.devcontainer }}/Dockerfile
+          file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository_owner }}/devcontainer:${{ steps.get-version.outputs.version }}-${{ matrix.devcontainer }}
             ghcr.io/${{ github.repository_owner }}/devcontainer:${{ matrix.devcontainer }}
             ghcr.io/${{ github.repository_owner }}/devcontainer:${{ matrix.devcontainer }}-${{ steps.get-version.outputs.gitsha }}
           push: ${{ github.event_name == 'push' }} 
