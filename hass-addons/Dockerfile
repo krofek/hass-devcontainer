@@ -5,7 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-COPY src/rootfs /
-COPY src/install /install
+# Install Docker
+COPY build/docker_install.sh /docker_install.sh
+RUN bash /docker_install.sh && rm /docker_install.sh
 
-RUN bash /install/install_deps.sh
+COPY rootfs/ /

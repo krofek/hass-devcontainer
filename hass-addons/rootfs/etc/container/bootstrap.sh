@@ -2,7 +2,7 @@
 
 set -x
 
-bash /install/install_packages.sh
+bash install_deps.sh
 
 workspace_mount="/mnt/supervisor/addons/local/$(basename "${WORKSPACE_DIRECTORY:?}")"
 if ! mountpoint -q "${workspace_mount}"; then
