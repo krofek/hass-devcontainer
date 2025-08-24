@@ -4,7 +4,7 @@ set -e
 
 # Load common functions
 # shellcheck disable=SC1091
-source /common.sh
+source /tmp/install/common.sh
 
 # Install packages
 echo "Install common packages"
