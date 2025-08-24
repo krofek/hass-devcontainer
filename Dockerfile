@@ -10,8 +10,8 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         # dbus \
         # network-mana3ger \
-        libpulse0=17.0+dfsg1-2+b1 \
-        xz-utils=5.8.1-1.1+b2 \
+        libpulse0=17.0 \
+        xz-utils=5.8 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy rootfs and bootstrap.sh
