@@ -1,31 +1,33 @@
 #!/usr/bin/env bash
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        dbus \
-        network-manager \
-        libpulse0 \
-        xz-utils \
-        ca-certificates
+apt-get update
+apt-get install -y --no-install-recommends \
+    dbus \
+    network-manager \
+    libpulse0 \
+    xz-utils
+    ca-certificates \
+    curl \
+    gnupg \
+    systemd-journal-remote
 
-# Set up the Docker repository
 install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-chmod a+r /etc/apt/keyrings/docker.asc
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Add the repository to Apt sources:
+ # shellcheck disable=SC1091
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update
 
-# Install Docker Engine, CLI and Containerd
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+apt-get update 
+apt-get install -y --no-install-recommends \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io
 
-# Add user to docker group
-usermod -aG docker "$USER"
-newgrp docker
+rm -rf /var/lib/apt/lists/*
 
 # Enable Docker and Containerd services
 sudo systemctl enable docker.service
