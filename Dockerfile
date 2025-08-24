@@ -6,12 +6,14 @@ ENV DEBIAN_FRONTEND=noninteractive \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install tools
+
+# hadolint disable=DL3008
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        # dbus \
-        # network-mana3ger \
+        # dbus=<version> \
+        # network-mana3ger=<version> \
         libpulse0=17.0 \
-        xz-utils=5.8 \
+        xz-utils=5.8.1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy rootfs and bootstrap.sh
