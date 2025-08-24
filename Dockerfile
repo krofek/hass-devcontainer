@@ -10,5 +10,5 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 #         udisks2
 
 # Copy rootfs and bootstrap.sh
-COPY ./src/install /tmp/install
+COPY ./src/install /install
 COPY ./src/rootfs /
