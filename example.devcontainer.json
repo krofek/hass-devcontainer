@@ -1,6 +1,6 @@
 {
-  "name": "Example devcontainer for add-on repositories",
-  "image": "ghcr.io/home-assistant/devcontainer:2-addons",
+  "name": "Hass Add-ons Development",
+  "image": "ghcr.io/krofek/devcontainer:hass-addons",
   "features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	},
