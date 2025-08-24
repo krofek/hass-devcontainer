@@ -4,7 +4,7 @@ set -x
 
 # Load common functions
 # shellcheck disable=SC1091
-source install_common.sh
+source "install_common.sh"
 
 # Prepare supervisor
 echo "Prepare supervisor"

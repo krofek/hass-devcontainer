@@ -2,10 +2,26 @@
 
 set -x
 
+# Prepare supervisor
+function prepare_supervisor()
+{
+    sudo rm /etc/machine-id
+    sudo dbus-uuidgen --ensure=/etc/machine-id
+
+    if grep -q 'microsoft-standard\|standard-WSL' /proc/version; then
+        # The docker daemon does not start when running WSL2 without adjusting iptables
+        sudo update-alternatives --set iptables /usr/sbin/iptables-legacy || echo "Fails adjust iptables"
+        sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy || echo "Fails adjust ip6tables"
+    fi
+}
+
 # Get architecture in different formats
-get_arch()
+function get_arch()
 {
     local mode=${1:-unix}
+    local ARCHITECTURE
+    ARCHITECTURE=$(uname -m)
+    
     case $ARCHITECTURE in
         x86_64|amd64)
           case $mode in
@@ -30,22 +46,9 @@ get_arch()
     esac
 }
 
-# Prepare supervisor
-prepare_supervisor()
-{
-    sudo rm /etc/machine-id
-    sudo dbus-uuidgen --ensure=/etc/machine-id
-
-    if grep -q 'microsoft-standard\|standard-WSL' /proc/version; then
-        # The docker daemon does not start when running WSL2 without adjusting iptables
-        sudo update-alternatives --set iptables /usr/sbin/iptables-legacy || echo "Fails adjust iptables"
-        sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy || echo "Fails adjust ip6tables"
-    fi
-}
-
 # Install cosign
-install_cosign() {
-    ARCH=get_arch docker
+function install_cosign() {
+    ARCH=$(get_arch) docker
 
     curl -fLs \
         "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-${ARCH}" \
@@ -57,8 +60,8 @@ install_cosign() {
 }
 
 # Install os-agent
-install_os_agent() {
-    ARCH=get_arch
+function install_os_agent() {
+    ARCH=$(get_arch)
 
     curl -Lso ./os-agent.deb \
         "https://github.com/home-assistant/os-agent/releases/download/${OS_AGENT_VERSION}/os-agent_${OS_AGENT_VERSION}_linux_${ARCH}.deb"
@@ -68,8 +71,8 @@ install_os_agent() {
 }
 
 # Install shellcheck
-install_shellcheck() {
-    ARCH=get_arch
+function install_shellcheck() {
+    ARCH=$(get_arch)
     
     curl -fLs \
         "https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.${ARCH}.tar.xz" \
