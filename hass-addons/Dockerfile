@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install Docker
-COPY build/docker_install.sh /docker_install.sh
+COPY /hass-addons/build/docker_install.sh /docker_install.sh
 RUN bash /docker_install.sh && rm /docker_install.sh
 
-COPY rootfs/ /
+COPY /hass-addons/rootfs /
