@@ -81,3 +81,9 @@ function install_shellcheck() {
     sudo mv -f "./shellcheck-stable/shellcheck" "/usr/bin/shellcheck"
     sudo rm -rf "./shellcheck-stable"
 }
+
+export -f prepare_supervisor
+export -f get_arch
+export -f install_cosign
+export -f install_os_agent
+export -f install_shellcheck

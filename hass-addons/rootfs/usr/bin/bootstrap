@@ -2,10 +2,12 @@
 
 set -x
 
-bash /etc/container/install_deps.sh
-
 workspace_mount="/mnt/supervisor/addons/local/$(basename "${WORKSPACE_DIRECTORY:?}")"
 if ! mountpoint -q "${workspace_mount}"; then
     sudo mkdir -p "${workspace_mount}"
     sudo mount --bind "${WORKSPACE_DIRECTORY}" "${workspace_mount}"
 fi
+
+exec /etc/container/install_deps.sh
+
+# exit 0
