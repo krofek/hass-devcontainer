@@ -39,6 +39,9 @@ function get_package_version() {
     jq -r --arg package "$package" '.[$package]' /tmp/install/versions.json
 }
 
+export get_arch
+export get_package_version
+
 # Prepare supervisor
 function prepare_supervisor() {
     sudo rm /etc/machine-id
@@ -79,7 +82,6 @@ function install_os_agent() {
     dpkg -i ./os-agent.deb
     rm ./os-agent.deb
 }
-
 
 # Install shellcheck
 function install_shellcheck() {
