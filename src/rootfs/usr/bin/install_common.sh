@@ -3,7 +3,7 @@
 set -x
 
 # Get architecture in different formats
-function get_arch() {
+get_arch() {
     local mode=${1:-unix}
     case $(arch) in
         x86_64|amd64)
@@ -29,11 +29,8 @@ function get_arch() {
     esac
 }
 
-export get_arch
-export get_package_version
-
 # Prepare supervisor
-function prepare_supervisor() {
+prepare_supervisor() {
     sudo rm /etc/machine-id
     sudo dbus-uuidgen --ensure=/etc/machine-id
 
@@ -44,8 +41,11 @@ function prepare_supervisor() {
     fi
 }
 
+export get_arch
+export prepare_supervisor
+
 # Install cosign
-function install_cosign() {
+install_cosign() {
     ARCH=$(get_arch docker)
 
     curl -fLs \
@@ -58,7 +58,7 @@ function install_cosign() {
 }
 
 # Install os-agent
-function install_os_agent() {
+install_os_agent() {
     ARCH=$(get_arch)
 
     curl -Lso ./os-agent.deb \
@@ -69,7 +69,7 @@ function install_os_agent() {
 }
 
 # Install shellcheck
-function install_shellcheck() {
+install_shellcheck() {
     ARCH=$(get_arch)
     
     curl -fLs \
