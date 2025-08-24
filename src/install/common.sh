@@ -32,11 +32,7 @@ function get_arch() {
 # Get package version from versions.json
 function get_package_version() {
     local package=$1
-    if [ -z "$package" ]; then
-        echo "Package name is required"
-        exit 1
-    fi
-    jq -r --arg package "$package" '.[$package]' /tmp/install/versions.json
+    echo "${APP_VERSIONS[$package]}"
 }
 
 export get_arch
@@ -73,9 +69,6 @@ function install_os_agent() {
     ARCH=$(get_arch)
     OS_AGENT_VERSION=$(get_package_version os-agent)
 
-    apt update
-    apt install -y udisks2
-
     curl -Lso ./os-agent.deb \
         "https://github.com/home-assistant/os-agent/releases/download/${OS_AGENT_VERSION}/os-agent_${OS_AGENT_VERSION}_linux_${ARCH}.deb"
 
@@ -86,6 +79,7 @@ function install_os_agent() {
 # Install shellcheck
 function install_shellcheck() {
     ARCH=$(get_arch)
+
     curl -fLs \
         "https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.${ARCH}.tar.xz" \
         | tar -xJ

@@ -10,7 +10,13 @@
   "workspaceFolder": "/mnt/supervisor/addons/local/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
   "containerEnv": {
-    "WORKSPACE_DIRECTORY": "${containerWorkspaceFolder}"
+    "WORKSPACE_DIRECTORY": "${containerWorkspaceFolder}",
+    "APP_VERSIONS": {
+      "cosign": "2.4.0",
+      "os-agent": "1.7.2",
+      "nvm": "0.40.1"
+    },
+    "TZ": "Europe/Ljubljana"
   },
   "customizations": {
     "vscode": {
