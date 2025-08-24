@@ -36,7 +36,7 @@ function get_package_version() {
         echo "Package name is required"
         exit 1
     fi
-    jq -r --arg package "$package" '.[$package]' /tmp/common/install/versions.json
+    jq -r --arg package "$package" '.[$package]' /tmp/install/versions.json
 }
 
 # Prepare supervisor

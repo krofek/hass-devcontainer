@@ -15,10 +15,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy rootfs and bootstrap.sh
-COPY ./src /
+COPY ./src/install /tmp/install
+COPY ./src/rootfs /
 
 # Bootstrap
-RUN bash /install/install.sh
+RUN bash /tmp/install/install.sh
 
 # Cleanup
 RUN rm -rf /tmp/* \
