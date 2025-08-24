@@ -3,7 +3,7 @@
 set -e
 
 # Load common functions
-source ./common.sh
+source /tmp/install/common.sh
 
 # Install packages
 echo "Install common packages"
