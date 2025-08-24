@@ -4,7 +4,8 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         udisks2 \
         jq \
-        ca-certificates curl
+        ca-certificates curl \
+        network-manager \
 
 # Set up the Docker repository
 install -m 0755 -d /etc/apt/keyrings

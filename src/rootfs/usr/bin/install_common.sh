@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -x
 
 # Get architecture in different formats
 function get_arch() {

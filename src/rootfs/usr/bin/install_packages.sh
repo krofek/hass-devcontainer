@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -x
 
 # Load common functions
 # shellcheck disable=SC1091
