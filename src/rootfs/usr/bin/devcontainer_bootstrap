@@ -2,6 +2,9 @@
 
 set -e
 
+bash /tmp/install/install.sh
+rm -rf /tmp/install
+
 workspace_mount="/mnt/supervisor/addons/local/$(basename "${WORKSPACE_DIRECTORY:?}")"
 if ! mountpoint -q "${workspace_mount}"; then
     sudo mkdir -p "${workspace_mount}"

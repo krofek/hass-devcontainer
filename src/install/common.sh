@@ -32,8 +32,8 @@ function get_arch() {
 # Get package version from versions.json
 function get_package_version() {
     local package=$1
-    echo "${APP_VERSIONS[$package]}"
-}
+    echo "${APP_VERSIONS{$package}}"
+  }
 
 export get_arch
 export get_package_version
@@ -79,7 +79,6 @@ function install_os_agent() {
 # Install shellcheck
 function install_shellcheck() {
     ARCH=$(get_arch)
-
     curl -fLs \
         "https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.${ARCH}.tar.xz" \
         | tar -xJ
