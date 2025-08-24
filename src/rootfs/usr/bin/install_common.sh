@@ -64,7 +64,7 @@ function install_os_agent() {
     curl -Lso ./os-agent.deb \
         "https://github.com/home-assistant/os-agent/releases/download/${OS_AGENT_VERSION}/os-agent_${OS_AGENT_VERSION}_linux_${ARCH}.deb"
 
-    dpkg -i ./os-agent.deb
+    sudo dpkg -i ./os-agent.deb
     rm ./os-agent.deb
 }
 
