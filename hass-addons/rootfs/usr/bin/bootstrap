@@ -8,6 +8,4 @@ if ! mountpoint -q "${workspace_mount}"; then
     sudo mount --bind "${WORKSPACE_DIRECTORY}" "${workspace_mount}"
 fi
 
-exec /etc/container/prepare.sh
-
-# exit 0
+exit 0
