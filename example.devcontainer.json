@@ -1,6 +1,6 @@
 {
   "name": "Hass Add-ons Development",
-  "image": "ghcr.io/krofek/devcontainer:hass-addons-1ea5706",
+  "image": "ghcr.io/krofek/devcontainer:hass-addons",
   "features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	},
