@@ -17,10 +17,13 @@ RUN \
 
 # Copy rootfs and bootstrap.sh
 COPY ./src/rootfs /
-COPY ./src/bootstrap.sh /tmp/bootstrap.sh
+COPY ./src/install /tmp/install
 
 # Bootstrap
-RUN bash /tmp/bootstrap.sh && rm -rf /tmp/bootstrap.sh
-
-# Cleanup
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  /var/cache/apt/archives/*.deb
+RUN bash /tmp/install/install.sh \
+    && apt-get clean \
+    && rm -rf \
+        /var/lib/apt/lists/* \
+        /tmp/* \
+        /var/tmp/* \
+        /var/cache/apt/archives/*.deb
