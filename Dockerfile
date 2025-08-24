@@ -13,7 +13,10 @@ RUN apt-get update \
         containerd.io=1.6.24-1 \
         docker-buildx-plugin=0.11.2-1~debian.12~bookworm \
         docker-compose-plugin=2.24.2-1~debian.12~bookworm \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && usermod -aG docker "${USER:-vscode}" \
+    && systemctl enable docker.service \
+    && systemctl enable containerd.service
 
 # Copy rootfs and bootstrap.sh
 COPY ./src/install /tmp/install
