@@ -3,9 +3,10 @@
 set -x
 
 # Get architecture in different formats
-get_arch() {
+get_arch()
+{
     local mode=${1:-unix}
-    case $(arch) in
+    case $ARCHITECTURE in
         x86_64|amd64)
           case $mode in
               unix)
@@ -30,7 +31,8 @@ get_arch() {
 }
 
 # Prepare supervisor
-prepare_supervisor() {
+prepare_supervisor()
+{
     sudo rm /etc/machine-id
     sudo dbus-uuidgen --ensure=/etc/machine-id
 
@@ -41,12 +43,9 @@ prepare_supervisor() {
     fi
 }
 
-export get_arch
-export prepare_supervisor
-
 # Install cosign
 install_cosign() {
-    ARCH=$(get_arch docker)
+    ARCH=get_arch docker
 
     curl -fLs \
         "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-${ARCH}" \
@@ -59,7 +58,7 @@ install_cosign() {
 
 # Install os-agent
 install_os_agent() {
-    ARCH=$(get_arch)
+    ARCH=get_arch
 
     curl -Lso ./os-agent.deb \
         "https://github.com/home-assistant/os-agent/releases/download/${OS_AGENT_VERSION}/os-agent_${OS_AGENT_VERSION}_linux_${ARCH}.deb"
@@ -70,7 +69,7 @@ install_os_agent() {
 
 # Install shellcheck
 install_shellcheck() {
-    ARCH=$(get_arch)
+    ARCH=get_arch
     
     curl -fLs \
         "https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.${ARCH}.tar.xz" \

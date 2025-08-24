@@ -9,5 +9,3 @@ if ! mountpoint -q "${workspace_mount}"; then
     sudo mkdir -p "${workspace_mount}"
     sudo mount --bind "${WORKSPACE_DIRECTORY}" "${workspace_mount}"
 fi
-
-exit 0
