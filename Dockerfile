@@ -20,10 +20,9 @@ COPY ./src/rootfs /
 COPY ./src/install /tmp/install
 
 # Bootstrap
-RUN bash /tmp/install/install.sh \
-    && apt-get clean \
-    && rm -rf \
-        /var/lib/apt/lists/* \
+RUN chmod +x /tmp/install/*.sh \
+    && bash /tmp/install/install.sh \
+    && rm -rf /var/lib/apt/lists/* \
         /tmp/* \
         /var/tmp/* \
         /var/cache/apt/archives/*.deb
