@@ -3,7 +3,8 @@
 set -e
 
 # Get architecture in different formats
-function get_arch($mode="unix") {
+function get_arch() {
+    local mode=${1:-unix}
     case $(arch) in
         x86_64|amd64)
           case $mode in
@@ -29,7 +30,12 @@ function get_arch($mode="unix") {
 }
 
 # Get package version from versions.json
-function get_package_version($package) {
+function get_package_version() {
+    local package=$1
+    if [ -z "$package" ]; then
+        echo "Package name is required"
+        exit 1
+    fi
     jq -r --arg package "$package" '.[$package]' /tmp/common/install/versions.json
 }
 

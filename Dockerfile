@@ -1,25 +1,28 @@
 FROM mcr.microsoft.com/devcontainers/base:debian
 
-ENV \
-    DEBIAN_FRONTEND=noninteractive \
+ENV DEBIAN_FRONTEND=noninteractive \
     DEVCONTAINER=1
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install tools
-RUN \
-    apt-get update \
+RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         # dbus \
-        # network-manager \
-        libpulse0 \
-        xz-utils
+        # network-mana3ger \
+        libpulse0=17.0+dfsg1-2+b1 \
+        xz-utils=5.8.1-1.1+b2 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy rootfs and bootstrap.sh
-COPY ./src/rootfs /
-COPY ./src/install /tmp/install
+COPY ./src /
 
 # Bootstrap
-RUN chmod +x /tmp/install/*.sh \
-    && bash /tmp/install/install.sh \
-    && rm -rf /tmp/*
+RUN bash /install/install.sh
+
+# Cleanup
+RUN rm -rf /tmp/* \
+    && apt-get remove -y --purge \
+        xz-utils \
+    && apt-get autoremove -y \
+    && apt-get clean -y

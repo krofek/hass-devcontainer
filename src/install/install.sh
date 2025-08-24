@@ -3,6 +3,7 @@
 set -e
 
 # Load common functions
+# shellcheck disable=SC1091
 source /tmp/install/common.sh
 
 # Install packages

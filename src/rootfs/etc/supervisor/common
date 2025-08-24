@@ -4,12 +4,14 @@ set -e
 
 VERSION_INFO=$(curl -s https://version.home-assistant.io/dev.json)
 HA_ARCH=$(get_arch ha)
-QEMU_ARCH=$(get_arch qemu)
 DOCKER_TIMEOUT=30
 SUPERVISOR_SHARE="/mnt/supervisor"
 
-export SUPERVISOR_VERSION="$(echo ${VERSION_INFO} | jq -e -r '.supervisor')"
-export SUPERVISOR_IMAGE="$(sed "s/{arch}/${HA_ARCH}/g" <<< "$(echo ${VERSION_INFO} | jq -e -r '.images.supervisor')")"
+export SUPERVISOR_VERSION
+SUPERVISOR_VERSION=$(echo "${VERSION_INFO}" | jq -e -r '.supervisor')
+
+export SUPERVISOR_IMAGE
+SUPERVISOR_IMAGE=$("$(echo "${VERSION_INFO}" | jq -e -r '.images.supervisor')"//arch/"${HA_ARCH}")
 
 
 function start_systemd_journald() {
@@ -108,8 +110,7 @@ function stop_docker() {
 function cleanup_lastboot() {
     if [[ -f /mnt/supervisor/config.json ]]; then
         echo "Cleaning up last boot"
-        sudo jq -rM 'del(.last_boot)' /mnt/supervisor/config.json > /tmp/config.json
-        sudo mv /tmp/config.json /mnt/supervisor/config.json
+        jq -rM 'del(.last_boot)' /mnt/supervisor/config.json | sudo tee /mnt/supervisor/config.json > /dev/null
     fi
 }
 
@@ -117,8 +118,8 @@ function cleanup_docker() {
     echo "Stopping and removing containers..."
     containers=$(docker ps -a -q)
     if [ -n "$containers" ]; then
-        docker stop $containers
-        docker rm $containers
+        docker stop "$containers"
+        docker rm "$containers"
     fi
 }
 
