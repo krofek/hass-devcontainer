@@ -5,8 +5,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Copy rootfs and bootstrap.sh
-COPY src/install /install
 COPY src/rootfs /
 
-RUN bash deps.sh
+RUN bash install_deps.sh
