@@ -1,6 +1,6 @@
 {
   "name": "Hass Add-ons Development",
-  "image": "ghcr.io/krofek/devcontainer:hass-addons",
+  "image": "ghcr.io/krofek/devcontainer:hass-addons-1ea5706",
   "features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	},
@@ -11,11 +11,8 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
   "containerEnv": {
     "WORKSPACE_DIRECTORY": "${containerWorkspaceFolder}",
-    "APP_VERSIONS": {
-      "cosign": "2.4.0",
-      "os-agent": "1.7.2",
-      "nvm": "0.40.1"
-    },
+    "COSIGN_VERSION": "2.4.0",
+    "OS_AGENT_VERSION": "1.7.2",
     "TZ": "Europe/Ljubljana"
   },
   "customizations": {

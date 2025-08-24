@@ -29,12 +29,6 @@ function get_arch() {
     esac
 }
 
-# Get package version from versions.json
-function get_package_version() {
-    local package=$1
-    echo "${APP_VERSIONS{$package}}"
-  }
-
 export get_arch
 export get_package_version
 
@@ -53,7 +47,6 @@ function prepare_supervisor() {
 # Install cosign
 function install_cosign() {
     ARCH=$(get_arch docker)
-    COSIGN_VERSION=$(get_package_version cosign)
 
     curl -fLs \
         "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-${ARCH}" \
@@ -67,7 +60,6 @@ function install_cosign() {
 # Install os-agent
 function install_os_agent() {
     ARCH=$(get_arch)
-    OS_AGENT_VERSION=$(get_package_version os-agent)
 
     curl -Lso ./os-agent.deb \
         "https://github.com/home-assistant/os-agent/releases/download/${OS_AGENT_VERSION}/os-agent_${OS_AGENT_VERSION}_linux_${ARCH}.deb"
@@ -79,6 +71,7 @@ function install_os_agent() {
 # Install shellcheck
 function install_shellcheck() {
     ARCH=$(get_arch)
+    
     curl -fLs \
         "https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.${ARCH}.tar.xz" \
         | tar -xJ
