@@ -3,10 +3,10 @@
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         dbus \
-        udisks2 \
-        jq \
-        ca-certificates curl \
         network-manager \
+        libpulse0 \
+        xz-utils \
+        ca-certificates
 
 # Set up the Docker repository
 install -m 0755 -d /etc/apt/keyrings
