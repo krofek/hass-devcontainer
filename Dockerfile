@@ -20,6 +20,6 @@ COPY ./src/rootfs /
 COPY ./src/install /tmp/install
 
 # Bootstrap
-RUN chmod +x /tmp/install/*.sh
-RUN bash /tmp/install/install.sh
-RUN rm -rf /tmp/*
+RUN chmod +x /tmp/install/*.sh \
+    && bash /tmp/install/install.sh \
+    && rm -rf /tmp/*
