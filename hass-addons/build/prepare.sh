@@ -53,10 +53,6 @@ function install_shellcheck() {
 echo "Installing Deps"
 install_deps
 
-# Prepare supervisor
-echo "Prepare supervisor"
-prepare_supervisor
-
 # Install packages
 echo "Install packages"
 install_cosign

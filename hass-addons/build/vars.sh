@@ -50,4 +50,5 @@ export SUPERVISOR_VERSION
 SUPERVISOR_VERSION="$(echo "${VERSION_INFO}" | jq -e -r '.supervisor')"
 
 export SUPERVISOR_IMAGE
+# shellcheck disable=SC2001
 SUPERVISOR_IMAGE="$(sed "s/{arch}/${HA_ARCH}/g" <<< "$(echo "${VERSION_INFO}" | jq -e -r '.images.supervisor')")"
