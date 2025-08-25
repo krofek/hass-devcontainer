@@ -16,4 +16,4 @@ COPY /hass-addons/build /tmp/build
 
 RUN source /tmp/build/vars.sh
 
-RUN bash /tmp/build/prepare.sh && rm /tmp/build
+RUN bash /tmp/build/prepare.sh && rm -rf /tmp/build
