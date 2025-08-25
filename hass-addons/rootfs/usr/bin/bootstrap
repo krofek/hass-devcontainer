@@ -2,6 +2,11 @@
 
 set -x
 
+# shellcheck disable=SC1091
+source /etc/supervisor/common
+
+prepare_supervisor
+
 workspace_mount="/mnt/supervisor/addons/local/$(basename "${WORKSPACE_DIRECTORY:?}")"
 if ! mountpoint -q "${workspace_mount}"; then
     sudo mkdir -p "${workspace_mount}"

@@ -37,6 +37,8 @@ function start_docker() {
     local current_time
     local elapsed_time
 
+    prepare_supervisor
+
     echo "Starting docker."
     if stat -f -c %T /var/lib/docker | grep -q overlayfs; then
         echo "Using \"vfs\" storage driver. Bind mount /var/lib/docker to use the faster overlay2 driver."
