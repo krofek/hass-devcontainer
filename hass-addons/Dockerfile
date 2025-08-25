@@ -14,7 +14,6 @@ ENV DOCKER_TIMEOUT=30 \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Copy root filesystem
 COPY /hass-addons/rootfs /
 COPY /hass-addons/build /tmp/build
 

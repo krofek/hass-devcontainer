@@ -25,9 +25,9 @@ function install_cosign() {
         "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-${DOCKER_ARCH}" \
         --output ./cosign
 
-    sudo chmod +x ./cosign
-    sudo mv -f ./cosign /usr/local/bin/cosign
-    sudo rm -f ./cosign
+    chmod +x ./cosign
+    mv -f ./cosign /usr/local/bin/cosign
+    rm -f ./cosign
 }
 
 # Install os-agent
@@ -35,8 +35,8 @@ function install_os_agent() {
     curl -Lso ./os-agent.deb \
         "https://github.com/home-assistant/os-agent/releases/download/${OS_AGENT_VERSION}/os-agent_${OS_AGENT_VERSION}_linux_${ARCH}.deb"
 
-    sudo dpkg -i ./os-agent.deb
-    sudo rm ./os-agent.deb
+    dpkg -i ./os-agent.deb
+    rm ./os-agent.deb
 }
 
 # Install shellcheck
@@ -45,8 +45,8 @@ function install_shellcheck() {
         "https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.${ARCH}.tar.xz" \
         | tar -xJ
 
-    sudo mv -f "./shellcheck-stable/shellcheck" "/usr/bin/shellcheck"
-    sudo rm -rf "./shellcheck-stable"
+    mv -f "./shellcheck-stable/shellcheck" "/usr/bin/shellcheck"
+    rm -rf "./shellcheck-stable"
 }
 
 # Install Deps

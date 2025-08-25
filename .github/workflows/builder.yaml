@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build devcontainer
+    name: Build Devcontainer
     strategy:
       matrix:
         devcontainer:
@@ -41,7 +41,7 @@ jobs:
           echo "version=$(head -1 ./${{ matrix.devcontainer }}/version)" >> $GITHUB_OUTPUT
           echo "gitsha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: 🛠️ Build devcontainer (${{ matrix.devcontainer }})
+      - name: 🛠️ Build (${{ matrix.devcontainer }})
         uses: docker/build-push-action@v6.18.0
         with:
           context: .
