@@ -46,15 +46,8 @@ QEMU_ARCH=get_arch qemu
 export VERSION_INFO
 VERSION_INFO=$(curl -s https://version.home-assistant.io/dev.json)
 
-export DOCKER_TIMEOUT
-DOCKER_TIMEOUT=30
-
-export SUPERVISOR_SHARE
-SUPERVISOR_SHARE="/mnt/supervisor"
-
 export SUPERVISOR_VERSION
 SUPERVISOR_VERSION="$(echo "${VERSION_INFO}" | jq -e -r '.supervisor')"
 
 export SUPERVISOR_IMAGE
-# shellcheck disable=SC2001
 SUPERVISOR_IMAGE="$(sed "s/{arch}/${HA_ARCH}/g" <<< "$(echo "${VERSION_INFO}" | jq -e -r '.images.supervisor')")"

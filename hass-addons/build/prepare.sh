@@ -2,6 +2,23 @@
 
 set -x
 
+# shellcheck disable=SC1091
+source /tmp/build/docker.sh
+
+function install_deps()
+{
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        dbus \
+        network-manager \
+        libpulse0 \
+        xz-utils \
+        ca-certificates \
+        curl \
+        gnupg \
+        systemd-journal-remote
+}
+
 # Install cosign
 function install_cosign() {
     curl -fLs \
@@ -32,14 +49,17 @@ function install_shellcheck() {
     sudo rm -rf "./shellcheck-stable"
 }
 
+# Install Deps
+echo "Installing Deps"
+install_deps
+
 # Prepare supervisor
 echo "Prepare supervisor"
 prepare_supervisor
 
 # Install packages
-echo "Install deps"
+echo "Install packages"
 install_cosign
 install_os_agent
 install_shellcheck
-
-bash /tmp/build/docker.sh
+install_docker
