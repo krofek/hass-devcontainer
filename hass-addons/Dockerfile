@@ -1,7 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/base:debian
 
-ENV TARGETPLATFORM=${TARGETPLATFORM}
-
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive \
     DEVCONTAINER=1
