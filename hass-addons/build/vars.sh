@@ -2,14 +2,12 @@
 
 set -x
 
-declare arch
-
 # Get architecture in different formats
 function get_arch()
 {
     local mode=${1:-unix}
 
-    case ${arch} in
+    case $(arch) in
         x86_64|amd64)
           case $mode in
               unix)

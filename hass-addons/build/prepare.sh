@@ -12,10 +12,10 @@ function install_deps()
         dbus \
         ca-certificates \
         systemd-journal-remote \
-        udisks2
-        # network-manager \
-        # libpulse0 \
-        # xz-utils \
+        udisks2 \
+        network-manager \
+        libpulse0 \
+        xz-utils
 }
 
 # Install cosign
