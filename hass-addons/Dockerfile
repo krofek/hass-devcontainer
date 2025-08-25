@@ -14,6 +14,6 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 COPY /hass-addons/rootfs /
 COPY /hass-addons/build /tmp/build
 
-RUN source /build/vars.sh
+RUN source /tmp/build/vars.sh
 
 RUN bash /tmp/build/prepare.sh && rm /tmp/build

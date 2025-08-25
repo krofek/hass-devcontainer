@@ -42,4 +42,4 @@ install_cosign
 install_os_agent
 install_shellcheck
 
-bash /build/docker.sh
+bash /tmp/build/docker.sh
