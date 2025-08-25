@@ -19,4 +19,8 @@ function install_docker()
       containerd.io
 
   rm -rf /var/lib/apt/lists/*
+
+  usermod -aG docker vscode
+
+  newgrp docker
 }

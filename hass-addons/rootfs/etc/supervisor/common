@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 function prepare_supervisor()
 {
     sudo rm /etc/machine-id
