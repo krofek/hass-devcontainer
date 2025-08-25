@@ -10,13 +10,12 @@ function install_deps()
     apt-get update
     apt-get install -y --no-install-recommends \
         dbus \
-        network-manager \
-        libpulse0 \
-        xz-utils \
         ca-certificates \
-        curl \
-        gnupg \
-        systemd-journal-remote
+        systemd-journal-remote \
+        udisks2
+        # network-manager \
+        # libpulse0 \
+        # xz-utils \
 }
 
 # Install cosign

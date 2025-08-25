@@ -31,24 +31,24 @@ function get_arch()
     esac
 }
 
-export ARCH
 ARCH=get_arch
+export ARCH
 
-export DOCKER_ARCH
 DOCKER_ARCH=get_arch docker
+export DOCKER_ARCH
 
-export HA_ARCH
 HA_ARCH=get_arch ha
+export HA_ARCH
 
-export QEMU_ARCH
 QEMU_ARCH=get_arch qemu
+export QEMU_ARCH
 
-export VERSION_INFO
 VERSION_INFO=$(curl -s https://version.home-assistant.io/dev.json)
+export VERSION_INFO
 
-export SUPERVISOR_VERSION
 SUPERVISOR_VERSION="$(echo "${VERSION_INFO}" | jq -e -r '.supervisor')"
+export SUPERVISOR_VERSION
 
-export SUPERVISOR_IMAGE
 # shellcheck disable=SC2001
 SUPERVISOR_IMAGE="$(sed "s/{arch}/${HA_ARCH}/g" <<< "$(echo "${VERSION_INFO}" | jq -e -r '.images.supervisor')")"
+export SUPERVISOR_IMAGE
