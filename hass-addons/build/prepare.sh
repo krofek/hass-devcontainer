@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC1091
 source /etc/container/arch.sh
-# source /tmp/build/docker.sh
+source /tmp/build/docker.sh
 
 function install_deps()
 {
@@ -56,4 +56,4 @@ echo "Install packages"
 install_cosign
 install_os_agent
 install_shellcheck
-# install_docker
+install_docker
