@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-set -x
-
 # shellcheck disable=SC1091
+source /etc/container/arch.sh
 source /tmp/build/docker.sh
 
 function install_deps()
@@ -13,9 +12,9 @@ function install_deps()
         ca-certificates \
         systemd-journal-remote \
         udisks2 \
+        xz-utils \
         network-manager \
-        libpulse0 \
-        xz-utils
+        libpulse0  
 }
 
 # Install cosign

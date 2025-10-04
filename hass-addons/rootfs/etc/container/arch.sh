@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 # Get architecture in different formats
 function get_arch()
 {
@@ -31,24 +29,12 @@ function get_arch()
     esac
 }
 
-ARCH=get_arch
+ARCH=$(get_arch)
+DOCKER_ARCH=$(get_arch "docker")
+HA_ARCH=$(get_arch "ha")
+QEMU_ARCH=$(get_arch "qemu")
+
 export ARCH
-
-DOCKER_ARCH=get_arch docker
 export DOCKER_ARCH
-
-HA_ARCH=get_arch ha
 export HA_ARCH
-
-QEMU_ARCH=get_arch qemu
 export QEMU_ARCH
-
-VERSION_INFO=$(curl -s https://version.home-assistant.io/dev.json)
-export VERSION_INFO
-
-SUPERVISOR_VERSION="$(echo "${VERSION_INFO}" | jq -e -r '.supervisor')"
-export SUPERVISOR_VERSION
-
-# shellcheck disable=SC2001
-SUPERVISOR_IMAGE="$(sed "s/{arch}/${HA_ARCH}/g" <<< "$(echo "${VERSION_INFO}" | jq -e -r '.images.supervisor')")"
-export SUPERVISOR_IMAGE
